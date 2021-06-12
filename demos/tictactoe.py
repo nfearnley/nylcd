@@ -60,11 +60,7 @@ class Game(nygame.Game):
         self.display = TicTacToeDisplay()
         self.size = self.display.get_size()
         self.reset_display()
-        self.x = 0
-        self.y = 0
-        self.player = "x"
-        self.winner = None
-        self.playfield = [[None] * 3, [None] * 3, [None] * 3]
+        self.reset()
 
     def loop(self, events: List[Event]):
         for e in events:
@@ -108,16 +104,17 @@ class Game(nygame.Game):
                 self.display.grid_o[x][y] = self.playfield[x][y] == "o"
                 self.display.grid_x[x][y] = self.playfield[x][y] == "x"
 
-        if self.player == "x":
-            self.display.grid_x[self.x][self.y] = self.blink
-        else:
-            self.display.grid_o[self.x][self.y] = self.blink
+        if self.winner is None:
+            if self.player == "x":
+                self.display.grid_x[self.x][self.y] = self.blink
+            else:
+                self.display.grid_o[self.x][self.y] = self.blink
             
         self.display.render_to(self.surface)
 
     def reset(self):
-        self.x = 0
-        self.y = 0
+        self.x = 1
+        self.y = 1
         self.player = "x"
         self.winner = None
         self.playfield = [[None] * 3, [None] * 3, [None] * 3]
